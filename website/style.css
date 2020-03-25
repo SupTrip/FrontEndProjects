@@ -5,15 +5,16 @@ body{
 
 #app{
     display: grid;
-    grid-auto-rows: minmax(150px, auto);
-    /* grid-template-columns:  */
-    height:100vh;
+    grid-template-columns: auto ;
+    
     background: #f23557;
     color: #f0d43a;
     justify-content: center;
     grid-gap: 1em;
     font-size: 20px;
     font-family: 'Oswald', sans-serif;
+    padding: 10px;
+
 }
 
 .holder{
@@ -42,6 +43,8 @@ body{
 
 .headline {
 
+
+
 }
 .title{
 
@@ -65,7 +68,7 @@ input{
 }
 
 button{
-    width: 400px;
+    width: 320px;
     height: 100px;
     background: #3b4a6b;
     color: #f0d43a;
