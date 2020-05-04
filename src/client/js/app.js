@@ -1,26 +1,26 @@
-/* Global Variables */
-const baseURL =`https://api.openweathermap.org/data/2.5/weather?q=`;
-const apiKey = '&APPID=bb95e29dbedc4d929be90b0dd99954e0';
+const baseURL =`http://api.geonames.org/searchJSON?q=`;
+const apiKey = '&username=supnav';
 
-// Create a new date instance dynamically with JS
-let d = new Date();
+
 
 document.getElementById('generate').addEventListener('click',performAction);
 
 function performAction(e){
-	const feeling = document.getElementById('feelings').value;
-	const zip = document.getElementById('zip').value;
+	const userCity = document.getElementById('city').value;
+	//const zip = document.getElementById('zip').value;
 
-	getWeather(baseURL, zip, apiKey)
+	getWeather(baseURL, userCity, apikey)
 
 	.then(function(data){
-	postData('/addAnimal', {"temp":data.main.temp, "date":d.toString(), "feelings":feeling});
+	const apiData = {latitude: data.south, longitude: data.geonames[0].lng, country: data.geonames[0].countryName};
+    console.log(apiData);
+	postData('http://localhost:8000/addAnimal', {"latitude":data.south, "longitude":data.geonames[0].lng, "country":data.geonames[0].countryName});
     updateUI()
 })
 };
 
-const getWeather = async(baseURL, zip, apiKey)=>{
-	const res = await fetch(baseURL+zip+apiKey)
+const getWeather = async(baseURL, city, key)=>{
+	const res =  await fetch('http://api.geonames.org/searchJSON?q='+city+key)
 	try{
 		const data = await res.json();
 		console.log(data)
@@ -41,7 +41,11 @@ const postData = async( url="",data={})=>{
 		headers:{
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(data)
+		body: JSON.stringify({
+                cityLat: apiData.latitude,
+                cityLong: apiData.longitude,
+                dataCountry: apiData.country
+            })
 
 });
  try {
@@ -55,19 +59,18 @@ const postData = async( url="",data={})=>{
   
 
 const updateUI = async() =>{
-	const request = await fetch('all')
+	const request = await fetch('http://localhost:8000/all')
 	try{
 		const allData = await request.json()
-		let lastElement = allData[allData.length- 1];
-		console.log(lastElement);
-	        document.getElementById('date').innerHTML = "Date:" + " "+ lastElement.date;
-		document.getElementById('temp').innerHTML = "Temperature:" +" "+ lastElement.temp +" " +"K";
-		document.getElementById('content').innerHTML = "Your Feelings:" + " " + lastElement.feelings;
+		//let lastElement = allData[allData.length- 1];
+		//console.log(lastElement);
+	    document.getElementById('latitude').innerHTML = "latitude:" + " "+ allData.cityLat;
+		document.getElementById('longitude').innerHTML = "Longitude:" +" "+ allData.cityLong ;
+		document.getElementById('country').innerHTML = "Longitude:" + " " + allData.dataCountry;
 	}catch(error){
 		console.log("error",error);
 	}
 }
 export {  performAction };
-
 
 
