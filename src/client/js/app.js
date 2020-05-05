@@ -1,6 +1,6 @@
 const baseURL =`http://api.geonames.org/searchJSON?q=`;
 const apiKey = '&username=supnav';
-
+let apiData='';
 
 
 document.getElementById('generate').addEventListener('click',performAction);
@@ -9,18 +9,22 @@ function performAction(e){
 	const userCity = document.getElementById('city').value;
 	//const zip = document.getElementById('zip').value;
 
-	getWeather(baseURL, userCity, apikey)
+	getWeather(baseURL, userCity, apiKey)
+	
 
 	.then(function(data){
-	const apiData = {latitude: data.south, longitude: data.geonames[0].lng, country: data.geonames[0].countryName};
+ 
+
+
+	apiData = {latitude: data.geonames[0].lat, longitude: data.geonames[0].lng, country: data.geonames[0].countryName};
     console.log(apiData);
-	postData('http://localhost:8000/addAnimal', {"latitude":data.south, "longitude":data.geonames[0].lng, "country":data.geonames[0].countryName});
+	postData('http://localhost:8000/addAnimal', {"latitude":data.geonames[0].lat, "longitude":data.geonames[0].lng, "country":data.geonames[0].countryName});
     updateUI()
 })
 };
 
 const getWeather = async(baseURL, city, key)=>{
-	const res =  await fetch('http://api.geonames.org/searchJSON?q='+city+key)
+	const res =  await fetch(baseURL+city+key)
 	try{
 		const data = await res.json();
 		console.log(data)
@@ -42,15 +46,15 @@ const postData = async( url="",data={})=>{
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-                cityLat: apiData.latitude,
-                cityLong: apiData.longitude,
-                dataCountry: apiData.country
+                cityLat: data.latitude,
+                cityLong: data.longitude,
+                dataCountry: data.country
             })
 
 });
  try {
         const newData = await response.json();
-        console.log(newData + "is here");
+        
         return newData
       }catch(error) {
       console.log("error", error)
@@ -64,13 +68,23 @@ const updateUI = async() =>{
 		const allData = await request.json()
 		//let lastElement = allData[allData.length- 1];
 		//console.log(lastElement);
-	    document.getElementById('latitude').innerHTML = "latitude:" + " "+ allData.cityLat;
-		document.getElementById('longitude').innerHTML = "Longitude:" +" "+ allData.cityLong ;
-		document.getElementById('country').innerHTML = "Longitude:" + " " + allData.dataCountry;
+	    
+	    // To be integrated after updateUI gets fixed
+	    //document.getElementById('latitude').innerHTML = "latitude:" + " "+ allData.cityLat;
+		//document.getElementById('longitude').innerHTML = "Longitude:" +" "+ allData.cityLong;
+		//document.getElementById('country').innerHTML = "Longitude:" + " " + allData.datCountry;
+
+		// This is going to by pass the integration
+		
+		document.getElementById('latitude').innerHTML = "latitude:" + " "+ apiData.latitude;
+		document.getElementById('longitude').innerHTML = "Longitude:" +" "+ apiData.longitude;
+		document.getElementById('country').innerHTML = "Longitude:" + " " + apiData.country;
+
 	}catch(error){
 		console.log("error",error);
 	}
 }
 export {  performAction };
+
 
 
