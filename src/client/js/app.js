@@ -1,4 +1,5 @@
 /* Global Variables */
+/* Global Variables */
 const baseURL =`http://api.geonames.org/searchJSON?q=`;
 const apiKey = '&username=supnav';
 let apiData='';
@@ -136,6 +137,3 @@ const updateUI = async() =>{
 	}
 }
 export {  performAction };
-
-
-
