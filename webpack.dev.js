@@ -17,7 +17,7 @@ module.exports = {
     devtool: 'source-map',
     stats: 'verbose',
     devServer:{
-       port:3000,
+        port:3000,
     },
     module: {
         rules: [
@@ -29,11 +29,7 @@ module.exports = {
             {
     test: /\.scss$/,
     use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-},
-{
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ["file-loader"]
-      }
+}
         ]
     },
     plugins: [
@@ -50,8 +46,12 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
         }),
+
         new WorkboxPlugin.GenerateSW(),
         new webpack.EnvironmentPlugin(['NODE_ENV', 'DEBUG']),
+        new webpack.DefinePlugin ({
+            "process.env.GEO_USERNAME": JSON.stringify('supnav')
+        })
         
     ]
     
