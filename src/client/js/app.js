@@ -1,3 +1,4 @@
+/* Global Variables */
 const baseURL =`http://api.geonames.org/searchJSON?q=`;
 const apiKey = '&username=supnav';
 let apiData='';
@@ -39,7 +40,7 @@ function performAction(e){
 })
 };
 
-const getWeather = async(baseURL, key,city)=>{
+const getWeather = async(baseURL,city, key)=>{
 	const res =  await fetch(baseURL+city+key)
 	try{
 		const data = await res.json();
@@ -136,10 +137,3 @@ const updateUI = async() =>{
 	}
 }
 export {  performAction };
-
-
-
-
-
-
-
