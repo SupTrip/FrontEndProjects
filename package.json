@@ -39,4 +39,4 @@
     "webpack-dev-server": "^3.10.3",
     "workbox-webpack-plugin": "^5.1.2"
   }
-}
+}  
