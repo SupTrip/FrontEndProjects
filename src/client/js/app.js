@@ -20,7 +20,7 @@ function performAction(e){
 	getPhoto(pixabayEP, key,userCity )
 	.then(function(photoData){
 		console.log(photoData);
-		postPhotoData('http://localhost:8000/addPhoto', {photoUrl:photoData.hits[0].largeImageURL})
+		postPhotoData('http://localhost:8000/addPhoto', {photoUrl:photoData.hits[0].largeImageURL});
 	})
 
 	//const zip = document.getElementById('zip').value;
@@ -95,7 +95,6 @@ const postData = async( url="",data={})=>{
 
   const postPhotoData = async( url="",photoData={})=>{
      console.log("PhotoData"+JSON.stringify(photoData));
-     console.log("PhotoData without Stringify "+photoData);
 	const response = await fetch(url,{
 		method:'POST',
 		credentials:'same-origin',
@@ -137,3 +136,6 @@ const updateUI = async() =>{
 	}
 }
 export {  performAction };
+
+
+
