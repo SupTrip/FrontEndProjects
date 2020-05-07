@@ -58,4 +58,3 @@ function addPhoto (req, res) {
 }
 
 
-
