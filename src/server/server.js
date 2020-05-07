@@ -1,9 +1,3 @@
-import{performAction}
-
-
-
-
-// Require Express to run server and routes
 const express = require('express');
 
 // Start up an instance of app
@@ -29,10 +23,6 @@ const port = 8000;
 const server = app.listen(port , ()=>{console.log(`the server running on localhost: ${port}`);}); //the callback function
 
 
-
-
-
-
 var projectData = [];
 
 app.get('/all', sendData);
@@ -49,16 +39,23 @@ function addAnimal (req,res) {
 	// body...
 	console.log(req.body);
 	newEntry = {
-		"temp": req.body.temp,
-		"date": req.body.date,
-		"feelings": req.body.feelings
+		"latitude": req.body.lat,
+		"longitude": req.body.lng,
+		"country": req.body.country
 	}
 	
 	projectData.push(newEntry)
 	res.send(projectData)
 	console.log(projectData)
 }
+
 /* Empty JS object to act as endpoint for all routes */
+
+app.post('/addPhoto', addPhoto);
+function addPhoto (req, res) {
+	console.log("received log"+req.body);
+	projectData.photoUrl= req.body.photoUrl;
+}
 
 
 
